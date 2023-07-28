@@ -19,6 +19,10 @@ Run the script, passing one or more text files are command-line
 arguments. The script will load the network map, validate it, and
 print any errors.
 
+```
+$ python3 -m ipam example/*.ipam
+```
+
 File Format
 -----------
 
