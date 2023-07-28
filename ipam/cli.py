@@ -1,5 +1,12 @@
+import logging
+
 from .address import Address
 from .trie import TrieMap
+from .validation import validate
+
+
+logger = logging.getLogger(__name__)
+
 
 def read(file) -> list:
     """Read statements from an open file."""
@@ -32,5 +39,10 @@ def main(argv: list[str]):
     for statement in sorted(statements):
         networks.insert(statement)
         print(statement)
-
     print(networks)
+
+    errors = validate(networks)
+    for error in errors:
+        logger.error(error)
+    
+    exit(int(bool(errors)))
