@@ -1,0 +1,19 @@
+# Internal networks.
+network 192.168.0.0/16      Allocated   Internal
+subnet  192.168.0.0/19      Allocated   Wagga Wagga head office
+subnet  192.168.32.0/19     Allocated   Main factory
+network 192.168.64.0/18     Free
+network 192.168.128.0/18    Free
+network 192.168.192.0/19    Free
+network 192.168.224.0/20    Free
+network 192.168.240.0/21    Free
+network 192.168.248.0/22    Free
+network 192.168.252.0/23    Free
+subnet  192.168.254.0/24    Allocated   VPN concentrator
+network 192.168.255.0/25    Free
+subnet  192.168.255.128/26  Allocated   DC1
+network 192.168.255.192/26	Split       Branch offices
+subnet  192.168.255.192/28  Allocated   London branch
+subnet  192.168.255.208/28  Allocated   Sydney branch
+subnet  192.168.255.224/28  Allocated   New York branch
+subnet  192.168.255.240/28  Allocated   Tokyo branch
