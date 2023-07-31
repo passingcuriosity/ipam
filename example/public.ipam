@@ -3,4 +3,5 @@
 network 198.51.100.0/24     Allocated   Public
 subnet  198.51.100.0/26     Allocated   Internet facing
 subnet  198.51.100.64/26    Allocated   DMZ
+subnet  198.51.100.64/26    Allocated   DMZ copy
 subnet  198.51.100.128/25   Allocated   Application servers
