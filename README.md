@@ -1,5 +1,5 @@
-Networks
-========
+IPAM
+====
 
 This is a utility to help maintain IP network address mappings.
 
