@@ -1,7 +1,10 @@
+import argparse
 import logging
+import sys
 
 from .address import Address
-from .trie import TrieMap
+from .tree import Tree
+from .types import AddressType, Loc, Network
 from .validation import validate
 
 
@@ -10,39 +13,65 @@ logger = logging.getLogger(__name__)
 
 def read(file) -> list:
     """Read statements from an open file."""
-    data = []
-    for line in file:
-        line = line.strip()
-        if line.startswith("#"):
+    networks = []
+    for (line, text) in enumerate(file):
+        text = text.strip()
+        if text.startswith("#"):
             continue
-        if not line:
+        if not text:
             continue
-        parts = line.split()
-        if parts[0] == "host":
-            data.append(Address.from_string(parts[1]))
-        elif parts[0] == "subnet":
-            data.append(Address.from_string(parts[1]))
-        elif parts[0] == "network":
-            data.append(Address.from_string(parts[1]))
-        else:
-            raise ValueError(f"Unknown statement '{parts[0]}': must be host, subnet, network")
-    return data
+        parts = text.split(maxsplit=2)
+        networks.append(
+            Network(
+                location=Loc(file=file.name, line=line),
+                address_type=AddressType(parts[0]),
+                address=Address.from_string(parts[1]),
+                comment=parts[2] if len(parts) == 3 else None,
+            )
+        )
+    return networks
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    "--verbose",
+    "-v",
+    action='count',
+    default=0,
+)
+parser.add_argument(
+    "FILES",
+    nargs='+',
+    type=argparse.FileType('r'),
+    default=sys.stdin,
+)
 
 
 def main(argv: list[str]):
-    statements = []
-    for fname in argv[1:]:
-        with open(fname, "r") as f:
-            statements += read(f)
-    
-    networks = TrieMap()
-    for statement in sorted(statements):
-        networks.insert(statement)
-        print(statement)
-    print(networks)
+    args = parser.parse_args(argv)
+    logging.basicConfig(
+        level=logging.WARNING - (args.verbose * 10),
+    )
 
-    errors = validate(networks)
-    for error in errors:
-        logger.error(error)
+    errors = []
+    networks = Tree()
+
+    for file in args.FILES:
+        for addr in read(file):
+            networks.insert(addr)
+    
+    logger.debug("Network tree: %s", networks)
+
+    errors += validate(networks)
+
+    logger.info(f"Processed: files={len(args.FILES)}; networks={len(networks)}; errors={len(errors)}")
+
+
+    if errors:
+        for error in sorted(errors):
+            logger.error(error)
+    else:
+        for network in networks:
+            logger.debug(str(network))
     
     exit(int(bool(errors)))
