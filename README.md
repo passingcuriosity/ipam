@@ -54,3 +54,7 @@ An organisation has a `/24` public IP allocation and uses an RFC 1918
 address range for their internal network.
 
 See the example in `example/`.
+
+To see an example with errors, see the [Example error pull request][3].
+
+[3]: https://github.com/passingcuriosity/ipam/pull/2
