@@ -38,7 +38,7 @@ class Tree(Generic[V]):
     for the sequence-prefix/set-covering relation.
 
     E.g.
-    
+
     > "a" in "ab"
     > "a" in "abcde"
     >
@@ -53,7 +53,7 @@ class Tree(Generic[V]):
 
     def __iter__(self: Tree[V]) -> Iterator[V]:
         return itertools.chain(*self.children)
-    
+
     def __len__(self: Tree[V]) -> int:
         return sum(map(len, self.children))
 
@@ -70,7 +70,7 @@ class Tree(Generic[V]):
         """Insert a value into the tree."""
         node = TreeNode(value)
         return self.graft(node)
-    
+
     def graft(
         self: Tree[V],
         other: TreeNode[V],
@@ -91,6 +91,10 @@ class Tree(Generic[V]):
             idx += 1
         self.children.insert(idx, other)
         return
+
+    def nodes(self: Tree[V]) -> Iterator[TreeNode[V]]:
+        """Iterator of tree nodes (c.f. values)."""
+        return itertools.chain.from_iterable(map(TreeNode.nodes, self.children))
 
 
 class TreeNode(Tree[V]):
@@ -116,12 +120,18 @@ class TreeNode(Tree[V]):
             return f"{repr(self.value)}:{super().__repr__()})"
         else:
             return repr(self.value)
-        
+
     def __str__(self: TreeNode[V]) -> str:
         if self.children:
             return f"{str(self.value)}:{super().__str__()}"
         else:
             return str(self.value)
+
+    def nodes(self: TreeNode[V]) -> str:
+        yield self
+        yield from itertools.chain.from_iterable(
+            map(TreeNode.nodes, self.children)
+        )
 
 
 if __name__ == "__main__":
@@ -131,7 +141,7 @@ if __name__ == "__main__":
 
         def __contains__(self, other):
             return other.value.startswith(self.value)
-        
+
         def __lt__(self, other):
             return self.value < other.value
 

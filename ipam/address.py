@@ -33,10 +33,14 @@ class Address:
     @property
     def network(self: Address) -> int:
         return self.address & self.network_mask
-    
+
     @property
     def host(self: Address) -> int:
         return self.address & self.host_mask
+
+    @property
+    def size(self: Address) -> int:
+        return 2 ** (32 - self.prefix)
 
     def __repr__(self) -> str:
         return str(self)
@@ -47,7 +51,7 @@ class Address:
         o3 = (self.address >> 8) & 0xFF
         o4 = self.address & 0xFF
         return f"{o1}.{o2}.{o3}.{o4}/{self.prefix}"
-    
+
     def __contains__(self: Address, other: Any) -> bool:
         return (
             isinstance(other, Address) and
@@ -61,8 +65,7 @@ class Address:
             return (self.network, self.prefix, self.host) < (other.network, other.prefix, other.host)
         else:
             return False
-    
-    
+
     @classmethod
     def from_string(cls, value: str) -> Address:
         # TODO: Be defensive

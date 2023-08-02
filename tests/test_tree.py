@@ -46,7 +46,7 @@ def test_insertion_order_invariant():
     assert len(set(trees)) == 1
 
 
-def test_iteration():
+def test_iteration_values():
     addresses = [
         "1.0.0.0/8",
         "1.0.0.0/8",
@@ -63,3 +63,23 @@ def test_iteration():
 
     data = list(str(a) for a in iter(tree))
     assert data == addresses
+
+
+def test_iteration_nodes():
+    addresses = [
+        "1.0.0.0/8",
+        "1.0.0.0/8",
+        "1.2.0.0/16",
+        "1.3.0.0/16",
+        "2.0.0.0/8",
+    ]
+
+    tree = Tree()
+    for a in addresses:
+        tree.insert(Address.from_string(a))
+
+    assert str(tree) == "[1.0.0.0/8:[1.0.0.0/8:[1.2.0.0/16, 1.3.0.0/16]], 2.0.0.0/8]"
+
+    data = list(str(node.value) for node in tree.nodes())
+    assert data == addresses
+

@@ -3,14 +3,18 @@ name: Validate
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - '**.ipam'
   pull_request:
     branches: [ "main" ]
+    paths:
+      - '**.ipam'
 
 permissions:
   contents: read
 
 jobs:
-  build:
+  validate:
 
     runs-on: ubuntu-latest
 
