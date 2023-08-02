@@ -83,6 +83,6 @@ if __name__ == "__main__":
         print(f"network = {phex(a.network)} = {phex(a.address)} & {phex(a.network_mask)}")
         print(f"host    = {phex(a.host)} = {phex(a.address)} & {phex(a.host_mask)}")
 
-    b = Address.from_string(f"192.168.256.150/17")
+    b = Address.from_string("192.168.256.150/17")
     print(f"{a} < {b} = {a < b}")
     print(f"{a} > {b} = {a > b}")

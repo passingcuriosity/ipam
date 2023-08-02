@@ -57,4 +57,3 @@ def test_example_3():
 def test_str():
     value = "1.2.3.4/32"
     assert value == str(Address.from_string(value))
-

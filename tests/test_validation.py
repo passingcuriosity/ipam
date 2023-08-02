@@ -3,7 +3,7 @@
 
 from ipam.address import Address
 from ipam.tree import Tree
-from ipam.types import *
+from ipam.types import Network, Loc, AddressType
 from ipam.validation import validate
 
 
@@ -68,4 +68,3 @@ def test_validation_duplicates():
         )
     )
     assert len(validate(tree)) == 1
-

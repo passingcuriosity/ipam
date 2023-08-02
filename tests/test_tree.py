@@ -82,4 +82,3 @@ def test_iteration_nodes():
 
     data = list(str(node.value) for node in tree.nodes())
     assert data == addresses
-

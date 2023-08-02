@@ -50,7 +50,7 @@ class Network:
             isinstance(other, Network) and
             self.address == other.address
         )
-    
+
     def __lt__(self, other: Any) -> bool:
         return (
             isinstance(other, Network) and
@@ -59,4 +59,3 @@ class Network:
 
     def __str__(self) -> str:
         return f"{self.address_type} {str(self.address)}"
-

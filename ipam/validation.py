@@ -53,9 +53,9 @@ def check_coverage(node: TreeNode[Network]):
     if node.children:
         children_size = sum(c.value.size for c in node.children)
         if network.size != children_size:
+            type_name = network.address_type.value.capitalize()
             errors.append(
-                f"{network.address_type.value.capitalize()} has {network.size} addresses but children only describe {children_size}"
+                f"{type_name} has {network.size} addresses but children only describe {children_size}"
             )
 
     return errors
-
