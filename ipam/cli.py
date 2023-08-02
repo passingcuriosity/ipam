@@ -59,13 +59,12 @@ def main(argv: list[str]):
     for file in args.FILES:
         for addr in read(file):
             networks.insert(addr)
-    
+
     logger.debug("Network tree: %s", networks)
 
     errors += validate(networks)
 
     logger.info(f"Processed: files={len(args.FILES)}; networks={len(networks)}; errors={len(errors)}")
-
 
     if errors:
         for error in sorted(errors):
@@ -73,5 +72,5 @@ def main(argv: list[str]):
     else:
         for network in networks:
             logger.debug(str(network))
-    
+
     exit(int(bool(errors)))

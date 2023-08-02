@@ -1,6 +1,14 @@
 from ipam.address import Address
 
 
+def test_address_size():
+    assert Address.from_string("1.0.0.0/8").size == 2 ** 24
+    assert Address.from_string("1.0.0.0/16").size == 65536
+    assert Address.from_string("1.0.0.0/20").size == 4096
+    assert Address.from_string("1.0.0.0/24").size == 256
+    assert Address.from_string("1.0.0.0/32").size == 1
+
+
 def test_contains_network_subnet():
     network = Address.from_string("1.2.0.0/16")
     subnet = Address.from_string("1.2.128.0/17")
@@ -49,4 +57,3 @@ def test_example_3():
 def test_str():
     value = "1.2.3.4/32"
     assert value == str(Address.from_string(value))
-

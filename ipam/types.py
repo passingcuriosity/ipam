@@ -35,6 +35,10 @@ class Network:
     address: Address
     comment: Optional[str] = None
 
+    @property
+    def size(self: Network):
+        return self.address.size
+
     def __contains__(self: Network, other: Any) -> bool:
         return (
             isinstance(other, Network) and
@@ -46,7 +50,7 @@ class Network:
             isinstance(other, Network) and
             self.address == other.address
         )
-    
+
     def __lt__(self, other: Any) -> bool:
         return (
             isinstance(other, Network) and
